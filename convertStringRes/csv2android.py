@@ -8,7 +8,10 @@ rootPath = "./"
 inputFile = rootPath + "v6Strings.csv"
 targetPath = "E:/WorkProject/SmartHomeV6Code_andriod/SmartHome/src/main/res/"
 # targetPath = rootPath
-outputFileData = [["values/", "strings.xml", 3], ["values-zh-rCN/", "strings.xml", 4]]
+outputFileData = [
+    ["values/", "strings.xml", 3],
+    ["values-zh-rCN/", "strings.xml", 4]
+]
 
 for outputFile in outputFileData:
     targetFilePath = targetPath + outputFile[0]
