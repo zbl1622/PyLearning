@@ -1,18 +1,18 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-#表结构 id,group,Key,Translatable,Values,Values-zh-rCN
+# 表结构 id,group,Key,Translatable,Values,Values-zh-rCN
 import csv
 import codecs
 import os
 
 rootPath = "./"
 inputFile = rootPath + "v6Strings.csv"
-targetPath = "E:/WorkProject/SmartHomeV6Code_andriod/SmartHome/src/main/res/"
+targetPath = "D:/WorkProject/SmartHomeV6Code_andriod/SmartHome/src/main/res/"
 # targetPath = rootPath
 outputFileData = [
-    ["values/", "strings.xml", 4],
-    ["values-zh-rCN/", "strings.xml", 5]
+    ["values/", "strings.xml", 5],
+    ["values-zh-rCN/", "strings.xml", 4]
 ]
 moduleIndex = 1
 keyIndex = 2
@@ -49,7 +49,17 @@ for outputFile in outputFileData:
             out.write("  <!-- %s -->" % (moduleName))
             out.write("\n")
             for row in dataList:
-                out.write("  <string name=\"%s\">%s</string>" % ((row[2]), row[column_index]))
-                out.write("\n")
+                valueLength = len(row[column_index])
+                if valueLength == 0:
+                    if len(row[0]) > 5:
+                        out.write("  <!-- %s -->" % (row[0]))
+                    else:
+                        out.write("  <string name=\"%s\">%s</string>" % (
+                            (row[2].replace('\n', '')), row[4].replace('\n', '\\n')))
+                    out.write("\n")
+                else:
+                    out.write("  <string name=\"%s\">%s</string>" % (
+                        (row[2].replace('\n', '')), row[column_index].replace('\n', '\\n')))
+                    out.write("\n")
         out.write("</resources>")
         out.flush()
