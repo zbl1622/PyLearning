@@ -55,11 +55,11 @@ for outputFile in outputFileData:
                         out.write("  <!-- %s -->" % (row[0]))
                     else:
                         out.write("  <string name=\"%s\">%s</string>" % (
-                            (row[2].replace('\n', '')), row[4].replace('\n', '\\n')))
+                            (row[2].replace('\n', '')), row[4].replace('\n', '\\n').replace('\'', '\\\'').replace('&','&#038;')))
                     out.write("\n")
                 else:
                     out.write("  <string name=\"%s\">%s</string>" % (
-                        (row[2].replace('\n', '')), row[column_index].replace('\n', '\\n')))
+                        (row[2].replace('\n', '')), row[column_index].replace('\n', '\\n').replace('\'', '\\\'').replace('&','&#038;')))
                     out.write("\n")
         out.write("</resources>")
         out.flush()
