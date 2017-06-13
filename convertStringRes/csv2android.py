@@ -17,6 +17,12 @@ outputFileData = [
 moduleIndex = 1
 keyIndex = 2
 
+def convertSafeString(text):
+    return text.replace('<font>','[font]').replace('</font>','[/font]')\
+        .replace('\n', '\\n')\
+        .replace('\'', '\\\'')\
+        .replace('&','&#038;')
+
 for outputFile in outputFileData:
     targetFilePath = targetPath + outputFile[0]
     targetFile = targetFilePath + outputFile[1]
@@ -55,11 +61,11 @@ for outputFile in outputFileData:
                         out.write("  <!-- %s -->" % (row[0]))
                     else:
                         out.write("  <string name=\"%s\">%s</string>" % (
-                            (row[2].replace('\n', '')), row[4].replace('\n', '\\n').replace('\'', '\\\'').replace('&','&#038;')))
+                            (row[2].replace('\n', '')), convertSafeString(row[4])))
                     out.write("\n")
                 else:
                     out.write("  <string name=\"%s\">%s</string>" % (
-                        (row[2].replace('\n', '')), row[column_index].replace('\n', '\\n').replace('\'', '\\\'').replace('&','&#038;')))
+                        (row[2].replace('\n', '')), convertSafeString(row[column_index])))
                     out.write("\n")
         out.write("</resources>")
         out.flush()
