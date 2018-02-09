@@ -1,3 +1,6 @@
+# 转换APP国际化翻译字符重构汇总.xlsx文件到项目中国际化文件的脚本
+# 使用前先配置好target_path和source_file，以及output_strcut中国际化语言对应的列标题
+
 import re
 import xlrd
 import codecs
