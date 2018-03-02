@@ -9,8 +9,10 @@ import os
 target_path = 'D:/WorkProjects/SmartHomeV6Code_andriod_develop/SmartHome/src/main/res/'
 source_file = './APP国际化翻译字符重构汇总.xlsx'
 output_strcut = [
-    ["values", 0, "Wulian-EN"],
-    ["values-zh-rCN", 0, "Wulian-CN"]
+    # 目标目录名，在表格中列数，在表格中标题，是否需要替换半角符号
+    ["values", 0, "Wulian-EN", True],
+    ["values-zh-rCN", 0, "Wulian-CN", False],
+    ["values-ja", 0, "Wulian-JP", False]
 ]
 key_list = list()
 
@@ -45,7 +47,11 @@ def read_excel():
         if not s['key']:
             continue
         for f in output_strcut:
-            s[f[0]] = table.row_values(i)[f[1]] if table.row_values(i)[f[1]] else table.row_values(i)[4]
+            value = str(
+                table.row_values(i)[f[1]] if table.row_values(i)[f[1]] else table.row_values(i)[output_strcut[0][1]])
+            if f[3]:
+                value = value.replace("，", ",").replace("“", "\"").replace("”", "\"")
+            s[f[0]] = value
         key_list.append(s)
     key_list = sorted(key_list, key=lambda x: x['group'])
     print('读取完毕')
