@@ -5,8 +5,8 @@ import hashlib
 import json
 
 rootPath = "D:/WorkProjects"
-oldPath = rootPath + "/SmartHomeV6Code_H5_smartroom"
-newPath = rootPath + "/SmartHomeV6Code_H5_zmartplus"
+oldPath = rootPath + "/SmartHomeV6Code_H5_old"
+newPath = rootPath + "/SmartHomeV6Code_H5"
 folderList = ["addDevice", "chatWebSocket", "default", "device/*", "editScene", "houseKeeper1", "ManagerGateWay",
               "SMSNotification", "source"]
 
@@ -48,6 +48,13 @@ def compare_path(o_path, n_path, deep):
 def update_infojson(root_path):
     update_file_list.append(root_path)
     print("升级目录下info文件:" + root_path)
+    info_file_path = root_path + "/info.json"
+    if not os.path.exists(info_file_path):
+        os.makedirs(info_file_path)
+    file = open(root_path + "/info.json", "w+")
+    infojson = json.loads(file.read())
+    infojson["version"] += 1
+    print("info.json:" + json.dumps(infojson))
 
 
 def get_file_md5(filename):

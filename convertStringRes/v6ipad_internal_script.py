@@ -6,13 +6,12 @@ import xlrd
 import codecs
 import os
 
-target_path = 'D:/WorkProjects/SmartHomeV6Code_andriod_develop/SmartHome/src/main/res/'
-source_file = './APP国际化翻译字符重构汇总.xlsx'
+target_path = 'D:/WorkProjects/SmartHomeV6_PADCode_H5/v6Pad/src/locales/'
+source_file = './Pad国际化翻译.xlsx'
 output_strcut = [
-    # 目标目录名，在表格中列数，在表格中标题，是否需要替换半角符号
-    ["values", 0, "Wulian-EN", True],
-    ["values-zh-rCN", 0, "Wulian-CN", False],
-    ["values-ja", 0, "Wulian-JP", False]
+    # 目标文件名，在表格中列数，在表格中标题，是否需要替换半角符号
+    ["en.yml", 0, "Wulian-EN", True],
+    ["zh-CN.yml", 0, "Wulian-CN", False]
 ]
 key_list = list()
 
@@ -42,8 +41,8 @@ def read_excel():
     key_list = list()
     for i in range(1, nrows):
         s = dict()
-        s['group'] = table.row_values(i)[1]
-        s['key'] = table.row_values(i)[2].strip()
+        s['group'] = "v6ipad"  # table.row_values(i)[1]
+        s['key'] = table.row_values(i)[1].strip()
         if not s['key']:
             continue
         for f in output_strcut:
@@ -60,21 +59,21 @@ def read_excel():
 def convert_2_xml():
     global key_list, output_strcut
     for f in output_strcut:
-        path = f[0]
-        if not os.path.exists(target_path + path):
-            os.makedirs(target_path + path)
-        with codecs.open(target_path + path + '/strings.xml', 'w', "utf-8") as out:
-            out.write("<resources>\n")
+        output_filename = f[0]
+        if not os.path.exists(target_path):
+            os.makedirs(target_path)
+        with codecs.open(target_path + output_filename, 'w', "utf-8") as out:
+            out.write("#v6ipad版本国际化文件\n")
             last_group = None
             for s in key_list:
                 if not s['group'] == last_group:
                     last_group = s['group']
                     out.write("\n")
-                    out.write("\t<!-- %s -->" % last_group)
+                    out.write("#group:%s" % last_group)
                     out.write("\n")
-                out.write('\t<string name="%s">%s</string>' % (s['key'], convert_safe_string(s.get(path))))
+                out.write('%s: %s' % (s['key'], convert_safe_string(s.get(output_filename))))
                 out.write('\n')
-            out.write("</resources>")
+            out.write("#end")
             out.flush()
 
 
