@@ -17,11 +17,12 @@ key_list = list()
 
 
 def convert_safe_string(text):
-    s = str(text).replace('<font>', '[font]').replace('</font>', '[/font]') \
-        .replace('\n', '\\n') \
-        .replace('\'', '\\\'') \
-        .replace('&', '&#038;')
-    return re.sub('%\D|%$', lambda x: "%%" + x.group()[1:], s)
+    # s = str(text).replace('<font>', '[font]').replace('</font>', '[/font]') \
+    #     .replace('\n', '\\n') \
+    #     .replace('\'', '\\\'') \
+    #     .replace('&', '&#038;')
+    # return re.sub('%\D|%$', lambda x: "%%" + x.group()[1:], s)
+    return str(text)
 
 
 def read_excel():
