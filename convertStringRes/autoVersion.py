@@ -21,7 +21,7 @@ def compare_path(o_path, n_path, deep):
     if (not os.path.exists(o_path)) and os.path.exists(n_path):
         print("旧目录不存在:" + o_path)
         if deep == 0:
-            update_infojson(n_path)
+            update_infojson(o_path, n_path)
         return False
     if os.path.exists(o_path) and (not os.path.exists(n_path)):
         print("新目录不存在:" + n_path)
@@ -31,7 +31,7 @@ def compare_path(o_path, n_path, deep):
             result = get_file_md5(o_path) == get_file_md5(n_path)
             if not result:
                 if deep == 0:
-                    update_infojson(n_path)
+                    update_infojson(o_path, n_path)
                 print("文件不一样:" + n_path)
             return result
         else:
@@ -39,22 +39,33 @@ def compare_path(o_path, n_path, deep):
                 result = compare_path(o_path + "/" + c_path, n_path + "/" + c_path, deep + 1)
                 if not result:
                     if deep == 0:
-                        update_infojson(n_path)
+                        update_infojson(o_path, n_path)
                     return False
         return True
     return True
 
 
-def update_infojson(root_path):
-    update_file_list.append(root_path)
-    print("升级目录下info文件:" + root_path)
-    info_file_path = root_path + "/info.json"
-    if not os.path.exists(info_file_path):
-        os.makedirs(info_file_path)
-    file = open(root_path + "/info.json", "w+")
-    infojson = json.loads(file.read())
-    infojson["version"] += 1
-    print("info.json:" + json.dumps(infojson))
+def update_infojson(o_root_path, n_root_path):
+    update_file_list.append(n_root_path)
+    print("升级目录下info文件:" + n_root_path)
+    read_info_file_path = o_root_path + "/info.json"
+    write_info_file_path = n_root_path + "/info.json"
+    # 读取旧目录下info.json中的version
+    version = 1
+    try:
+        infojson = json.loads(open(read_info_file_path, "r").read())
+        version = infojson["version"] + 1
+        infojson_string = json.dumps(infojson)
+        print("info.json:" + infojson_string)
+        if not os.path.exists(write_info_file_path):
+            os.makedirs(write_info_file_path)
+        infojson["version"] = version
+        infojson_string = json.dumps(infojson)
+        file = open(write_info_file_path, "w+")
+        file.write(infojson_string)
+    except:
+        print("info.json操作发生错误:" + n_root_path)
+        pass
 
 
 def get_file_md5(filename):
