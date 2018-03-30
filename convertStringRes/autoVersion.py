@@ -1,14 +1,20 @@
 # 对比两个目录，如果目录下内容有变化，则info.json中的version数值+1
+"""
+使用方法：
+使用git分别拉取项目到两个不同的目录下，
+其中一个检出到最新的发布版本，另一个检出到上一次发布的版本
+在脚本头部修改配置，运行脚本
+"""
 
 import os
 import hashlib
 import json
 
 rootPath = "D:/WorkProjects"
-oldPath = rootPath + "/SmartHomeV6Code_H5_old"
-newPath = rootPath + "/SmartHomeV6Code_H5"
+oldPath = rootPath + "/SmartHomeV6Code_H5_old"  # 上一次发布的版本
+newPath = rootPath + "/SmartHomeV6Code_H5"  # 最新发布版本
 folderList = ["addDevice", "chatWebSocket", "default", "device/*", "editScene", "houseKeeper1", "ManagerGateWay",
-              "SMSNotification", "source"]
+              "SMSNotification", "source"]  # 需要比较的一级目录
 
 update_file_list = []
 
