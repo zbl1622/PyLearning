@@ -59,7 +59,11 @@ def update_infojson(o_root_path, n_root_path):
     # 读取旧目录下info.json中的version
     version = 1
     try:
-        infojson = json.loads(open(read_info_file_path, "r").read())
+        infojson = None
+        if not os.path.exists(read_info_file_path):
+            infojson = json.loads("{\"version\":0}")
+        else:
+            infojson = json.loads(open(read_info_file_path, "r").read())
         version = infojson["version"] + 1
         infojson_string = json.dumps(infojson)
         print("info.json:" + infojson_string)

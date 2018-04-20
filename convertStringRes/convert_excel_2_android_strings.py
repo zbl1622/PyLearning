@@ -12,6 +12,7 @@ output_strcut = [
     # 目标目录名，在表格中列数，在表格中标题，是否需要替换半角符号
     ["values", 0, "Wulian-EN", True],
     ["values-zh-rCN", 0, "Wulian-CN", False],
+    ["values-zh-rHK", 0, "Wulian-CNT", False],
     ["values-ja", 0, "Wulian-JP", False]
 ]
 key_list = list()
